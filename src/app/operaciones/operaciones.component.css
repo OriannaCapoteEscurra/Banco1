@@ -1,0 +1,15 @@
+.mat-input-element:disabled{
+    color: #3f3f3f !important;
+}
+
+.m-right{
+    margin-right: 20px;
+}
+
+.filter-m-top{
+    margin-top: 20px;
+}
+
+.filter-m-bottom{
+    margin-bottom: 20px;
+}

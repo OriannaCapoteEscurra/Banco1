@@ -1,0 +1,77 @@
+<mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #drawer class="sidenav" fixedInViewport
+        [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'" [mode]="(isHandset$ | async) ? 'over' : 'side'"
+        [opened]="token ? true:false">
+        <mat-toolbar *ngIf="token" class="perfil">
+            <img src="../../assets/img/user.png" class="foto-perfil">
+
+            <div class="nameUser" *ngIf="editPerfil">
+                <span *ngIf="user.hasOwnProperty('user_ci')" style="vertical-align: middle;color:#fff !important;font-weight: 600;font-size: 1.2em;">{{user.first_name}}{{user.first_surname}} <br> {{user.user_ci}}</span>
+                <span *ngIf="user.hasOwnProperty('jusr_rif')" style="vertical-align: middle;color:#fff !important;font-weight: 600;font-size: 1.2em;">{{user.jusr_company}}<br>{{user.jusr_rif}}</span>
+                <!-- <img (click)="editPerfil = !editPerfil" style="cursor:pointer; vertical-align: middle"
+                    src="../../assets/img/edit.svg" alt="triangle with all three sides equal" height="22px"
+                    width="22px"/> -->
+            </div>
+
+            <div class="nameUser" *ngIf="!editPerfil">
+                <div class="user-name">
+                    <mat-form-field>
+                        <input matInput placeholder="Nombre de usuario">
+                    </mat-form-field>
+
+                    <i class="material-icons" [ngStyle]="{'color':'white'}" (click)="editPerfil = !editPerfil">
+                        check_circle
+                    </i>
+                </div>
+            </div>
+
+        </mat-toolbar>
+        <mat-nav-list *ngIf="token">
+            <a mat-list-item routerLink="/resumen" routerLinkActive="active"><img src="../../assets/img/dashboard.svg"
+                    alt="triangle with all three sides equal" height="30px" width="30px" />&nbsp;&nbsp;Resumen</a>
+            <a mat-list-item routerLink="/transferir"> <img src="../../assets/img/send.svg"
+                    alt="triangle with all three sides equal" height="30px" width="30px" />&nbsp;&nbsp;Transferencias
+            </a>
+            <a mat-list-item routerLink="/tarjetaCredito" routerLinkActive="active"> <img
+                    src="../../assets/img/credit-cards-payment.svg" alt="triangle with all three sides equal"
+                    height="30px" width="30px" />&nbsp;&nbsp;Tarjetas de crédito</a>
+            <a mat-list-item routerLink="/operaciones" routerLinkActive="active"><img
+                    src="../../assets/img/facturas.svg" alt="triangle with all three sides equal" height="30px"
+                    width="30px" />&nbsp;&nbsp;Historico de Operaciones</a>
+            <a *ngIf="user.hasOwnProperty('jusr_rif')" routerLink="/facturas" mat-list-item routerLinkActive="active">
+                <a>
+                    <img src="../../assets/img/bill.svg" alt="triangle with all three sides equal" height="30px" width="30px" />
+                    &nbsp;&nbsp;Facturas 
+                </a>
+                <span (click)="facturas = !facturas" style="width: 32px;margin-left: auto">
+                    <i *ngIf="!facturas" class="fas fa-chevron-down"></i>
+                    <i *ngIf="facturas" class="fas fa-chevron-up"></i>
+                </span>
+            </a>
+            <a class="sublist" *ngIf="facturas" mat-list-item routerLink="/facturas/pagadas" routerLinkActive="active">
+                Facturas Pagadas </a>
+            <a class="sublist" *ngIf="facturas" mat-list-item routerLink="/facturas/vigentes" routerLinkActive="active">
+                Facturas Vigentes </a>
+            <a class="sublist" *ngIf="facturas" mat-list-item routerLink="/facturas/vencidas" routerLinkActive="active">
+                Facturas Vencidas </a>
+            <a (click)="logout()" mat-list-item routerLink="/" routerLinkActive="active"> <img
+                    src="../../assets/img/logout.svg" alt="triangle with all three sides equal" height="30px"
+                    width="30px" />&nbsp;&nbsp;Salir</a>
+        </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <mat-toolbar *ngIf="token" class="nameApp">
+            <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()"
+                *ngIf="isHandset$ | async">
+                <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+            </button>
+            <div>
+                <img src="../../assets/img/logo_v2_sf.png" height="75px">
+            </div>
+        </mat-toolbar>
+        <!-- Add Content Here -->
+        <div [ngClass]="{'content':token}">
+            <router-outlet></router-outlet>
+        </div>
+    </mat-sidenav-content>
+</mat-sidenav-container>
